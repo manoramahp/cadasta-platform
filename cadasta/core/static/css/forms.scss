@@ -1,0 +1,129 @@
+/* =Forms
+-------------------------------------------------------------- */
+
+/* =Contacts form styling
+-------------------------------------------------------------- */
+
+tr.contacts-error {
+  background: $alert-warning-bg;
+  li {
+    padding: 0;
+  }
+  +tr td {
+    border-top: none;
+    padding-top: 0;
+    background: $alert-warning-bg;
+  }
+}
+
+/* =Party selection widget
+-------------------------------------------------------------- */
+
+#select-party {
+  #party-select {
+    width: 100%;
+  }
+  .select2 {
+    display: block;
+    margin: 0.5em 0;
+    width: 100%;
+  }
+  #add-party {
+    padding: 6px 18px;
+    .glyphicon {
+      opacity: 0.5;
+      padding-right: 8px;
+    }
+  }
+}
+
+.select2-container {
+  .party-name {
+    display: block;
+  }
+  .party-type {
+    display: block;
+    font-size: 0.85em;
+    opacity: 0.75;
+  }
+}
+
+/* =Parsley client-side validation
+-------------------------------------------------------------- */
+
+input.parsley-success,
+select.parsley-success,
+textarea.parsley-success {
+  color: #468847;
+  background-color: #DFF0D8;
+  border: 1px solid #D6E9C6;
+  background: url("/static/img/avatar.jpg") 20px no-repeat;
+}
+
+input.parsley-error,
+select.parsley-error,
+textarea.parsley-error {
+  color: #B94A48;
+  background-color: #F2DEDE;
+  border: 1px solid #EED3D7;
+}
+
+.parsley-errors-list {
+  margin: 2px 0 3px;
+  padding: 0;
+  list-style-type: none;
+  font-size: 0.9em;
+  line-height: 0.9em;
+  opacity: 0;
+
+  transition: all .3s ease-in;
+  -o-transition: all .3s ease-in;
+  -moz-transition: all .3s ease-in;
+  -webkit-transition: all .3s ease-in;
+}
+
+.parsley-errors-list.filled {
+  opacity: 1;
+}
+
+.icon-asterisk { // for required fields
+  content: "*";
+  color: $brand-danger;
+  display: inline-block;
+  font-style: normal;
+  padding: 0 2px;
+}
+
+input[data-parsley-required="true"] {
+  background: yellow;
+}
+
+input[data-parsley-required="true"] {
+  background: yellow;
+}
+
+.form-group:has( input[data-parsley-required="true"] ) {
+  background-color: blue;
+}
+
+/*input.parsley.select {
+  background: url("/static/img/avatar.jpg") 14px no-repeat;
+  background-color: rgba(80, 210, 80, 0.35);
+}
+
+data-parsley-class-handler=":parent" [data-parsley-required="true"] { 
+  content: "*";
+  color: #c20003;
+  margin-right: 2px;
+}
+
+label.required::before {
+  content: "*";
+  color: #c20003;
+  margin-right: 2px;
+}*/
+
+.has-error {
+  background: aqua;
+}
+
