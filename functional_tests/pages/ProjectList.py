@@ -67,3 +67,7 @@ class ProjectListPage(Page):
             assert actual_country == expected_country
 
             # TODO Check also last updated column
+
+    def follow_add_project_link(self):
+        link = self.BY_CSS('.page-title a.btn-primary')
+        link.click()

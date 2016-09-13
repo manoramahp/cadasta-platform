@@ -10,10 +10,17 @@ from selenium.common.exceptions import TimeoutException
 
 
 class ProjectAddPage(Page):
-    path = '/projects/new/'
-
     SUBPAGE_TYPES = ('geometry', 'details', 'permissions')
     TIMEOUT = 10
+
+    def __init__(self, test, org_slug=None):
+        if org_slug is None:
+            self.path = '/projects/new/'
+            self.org_slug = None
+        else:
+            self.path = '/organizations/{}/projects/new/'.format(org_slug)
+            self.org_slug = org_slug
+        super().__init__(test)
 
     def get_subpage_type(self):
         """Attempts tp determine the current subpage type

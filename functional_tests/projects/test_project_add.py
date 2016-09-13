@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 
 import geography.load
 
@@ -117,7 +118,56 @@ class ProjectAddTest(FunctionalTest):
 
         load_test_data(self.test_data)
 
-    def test_nonloggedin_user(self):
+    def test_add_project_link_org_admin(self):
+        """An org admin can access links to add a new project."""
+
+        # Log in as org admin
+        LoginPage(self).login(self.orgadmin['username'],
+                              self.orgadmin['password'])
+
+        # Test link from project list page
+        proj_list_page = ProjectListPage(self)
+        proj_list_page.go_to()
+        proj_list_page.follow_add_project_link()
+        proj_add_page = ProjectAddPage(self)
+        assert proj_add_page.is_on_page()
+
+        # Test link from organization page
+        org_url = self.live_server_url + '/organizations/unesco/'
+        self.browser.get(org_url)
+        css_selector = '.page-title .btn-add a.btn-primary'
+        link = self.browser.find_element_by_css_selector(css_selector)
+        link.click()
+        proj_add_page = ProjectAddPage(self, 'unesco')
+        assert proj_add_page.is_on_page()
+
+    def test_add_project_link_unaffiliated_user(self):
+        """An unaffiliated user cannot access links to add a new project."""
+
+        # Log in as unaffiliated user
+        LoginPage(self).login(self.unaffuser['username'],
+                              self.unaffuser['password'])
+
+        # Test link from project list page
+        proj_list_page = ProjectListPage(self)
+        proj_list_page.go_to()
+        try:
+            proj_list_page.follow_add_project_link()
+            raise AssertionError("There should be no add project link.")
+        except:
+            pass
+
+        # Test link from organization page
+        org_url = self.live_server_url + '/organizations/unesco/'
+        self.browser.get(org_url)
+        css_selector = '.page-title .btn-add a.btn-primary'
+        try:
+            self.browser.find_element_by_css_selector(css_selector)
+            raise AssertionError("There should be no add project link.")
+        except NoSuchElementException:
+            pass
+
+    def test_add_project_nonloggedin_user(self):
         """A non-logged-in user cannot access the add project page,
         but will be directed to it once logged in as a superuser."""
 
@@ -136,7 +186,7 @@ class ProjectAddTest(FunctionalTest):
         # Expected behavior is that user is denied access outright
         pass
 
-    def generic_test_orgadmin(self, access, org_slug):
+    def generic_test_add_project_org_admin(self, access, org_slug):
 
         assert access in ('public', 'private')
 
@@ -281,13 +331,13 @@ class ProjectAddTest(FunctionalTest):
         self.logout()
 
     def test_orgadmin_public_project_unesco(self):
-        self.generic_test_orgadmin('public', 'unesco')
+        self.generic_test_org_admin('public', 'unesco')
 
     def test_orgadmin_private_project_unesco(self):
-        self.generic_test_orgadmin('private', 'unesco')
+        self.generic_test_org_admin('private', 'unesco')
 
     def test_orgadmin_public_project_unicef(self):
-        self.generic_test_orgadmin('public', 'unicef')
+        self.generic_test_org_admin('public', 'unicef')
 
     def test_orgadmin_private_project_unicef(self):
-        self.generic_test_orgadmin('private', 'unicef')
+        self.generic_test_org_admin('private', 'unicef')

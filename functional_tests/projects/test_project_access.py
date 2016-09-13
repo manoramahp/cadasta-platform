@@ -93,7 +93,6 @@ class ProjectAccessTest(FunctionalTest):
             self.check_project_pages(user_type, parent_org_idxs)
             self.logout()
 
-    # FAILS: issue #188
     def test_nonloggedin_user(self):
         """Verify that a non-logged-in user can only see
         pages of public projects and that project details are correct."""
