@@ -136,7 +136,7 @@ class ProjectAddTest(FunctionalTest):
         # Expected behavior is that user is denied access outright
         pass
 
-    def generic_test_orgadmin(self, access):
+    def generic_test_orgadmin(self, access, org_slug):
 
         assert access in ('public', 'private')
 
@@ -166,13 +166,15 @@ class ProjectAddTest(FunctionalTest):
         proj_add_page.check_details(project)
 
         # Check that only valid orgs are provided
-        orgs = []
+        valid_orgs = []
         for org in self.test_data['orgs']:
             if 1 in org['_admins']:
-                orgs.append(org)
-        self.check_org_select(orgs)
+                valid_orgs.append(org)
+        proj_add_page.check_org_select(valid_orgs)
 
-        # TODO: Vary org selection
+        # Select specified org
+        proj_add_page.select_org(org_slug)
+        project['org'] = org_slug
 
         # Check that an error occurs when no project name was set
         # Also toggle access and set description
@@ -226,15 +228,17 @@ class ProjectAddTest(FunctionalTest):
         # Set project slug and org details
         project['slug'] = self.test_data['project_slug']
         orgs = self.test_data['orgs']
-        project['_org_slug'] = orgs[0]['slug']
-        project['_org_name'] = orgs[0]['name']
+        for org in orgs:
+            if org['slug'] == org_slug:
+                selected_org = org
+        project['_org_slug'] = selected_org['slug']
+        project['_org_name'] = selected_org['name']
         project['_org_logo'] = (
-            orgs[0]['logo'] if 'logo' in orgs[0] else ''
-        )
+            selected_org['logo'] if 'logo' in selected_org else '')
 
         # Check that we are now in the project page
         # and that displayed project details are correct
-        proj_page = ProjectPage(self, project['_org_slug'], project['slug'])
+        proj_page = ProjectPage(self, org_slug, project['slug'])
         assert proj_page.is_on_page()
         proj_page.check_page_contents(project)
 
@@ -246,15 +250,17 @@ class ProjectAddTest(FunctionalTest):
         self.logout()
 
         # Check new project as an org member
-        LoginPage(self).login(self.orgmember['username'],
-                              self.orgmember['password'])
-        proj_page.go_to()
-        assert proj_page.is_on_page()
-        proj_page.check_page_contents(project)
-        proj_list_page = ProjectListPage(self)
-        proj_list_page.go_to_and_check_on_page()
-        proj_list_page.check_project_list([project])
-        self.logout()
+        # (Only UNESCO has an org member)
+        if org_slug == 'unesco':
+            LoginPage(self).login(self.orgmember['username'],
+                                  self.orgmember['password'])
+            proj_page.go_to()
+            assert proj_page.is_on_page()
+            proj_page.check_page_contents(project)
+            proj_list_page = ProjectListPage(self)
+            proj_list_page.go_to_and_check_on_page()
+            proj_list_page.check_project_list([project])
+            self.logout()
 
         # Check new project as an unaffiliated user
         LoginPage(self).login(self.unaffuser['username'],
@@ -274,8 +280,14 @@ class ProjectAddTest(FunctionalTest):
             assert proj_list_page.is_list_empty()
         self.logout()
 
-    def test_orgadmin_public_project(self):
-        self.generic_test_orgadmin('public')
+    def test_orgadmin_public_project_unesco(self):
+        self.generic_test_orgadmin('public', 'unesco')
 
-    def test_orgadmin_private_project(self):
-        self.generic_test_orgadmin('private')
+    def test_orgadmin_private_project_unesco(self):
+        self.generic_test_orgadmin('private', 'unesco')
+
+    def test_orgadmin_public_project_unicef(self):
+        self.generic_test_orgadmin('public', 'unicef')
+
+    def test_orgadmin_private_project_unicef(self):
+        self.generic_test_orgadmin('private', 'unicef')

@@ -139,15 +139,17 @@ class ProjectAddPage(Page):
     # -----------------------
     # Details subpage methods
 
-    def select_org(self, slug):
-        assert self.is_on_subpage('details')
-        select = Select(self.BY_ID('id_details-organization'))
-        select.select_by_value(slug)
-
     def get_org(self):
         assert self.is_on_subpage('details')
         select = Select(self.BY_ID('id_details-organization'))
         return select.first_selected_option.get_attribute('value')
+
+    def select_org(self, slug):
+        assert self.is_on_subpage('details')
+        select_elem = self.BY_ID('id_details-organization')
+        select = Select(select_elem)
+        select.select_by_value(slug)
+        select_elem.location_once_scrolled_into_view
 
     def check_org_select(self, orgs):
         assert self.is_on_subpage('details')
@@ -161,16 +163,16 @@ class ProjectAddPage(Page):
                     assert option.text == org['name']
             assert is_found
 
+    def get_name(self):
+        assert self.is_on_subpage('details')
+        form_field = self.BY_ID('id_details-name')
+        return form_field.get_attribute('value') or ''
+
     def set_name(self, name):
         assert self.is_on_subpage('details')
         form_field = self.BY_ID('id_details-name')
         form_field.clear()
         form_field.send_keys(name)
-
-    def get_name(self):
-        assert self.is_on_subpage('details')
-        form_field = self.BY_ID('id_details-name')
-        return form_field.get_attribute('value') or ''
 
     def get_access_toggle_widget_and_states(self):
         widget = self.BY_XPATH(
@@ -191,22 +193,6 @@ class ProjectAddPage(Page):
             'private': private_state,
         }
 
-    def set_access(self, access):
-        assert self.is_on_subpage('details')
-        assert access in ('private', 'public')
-        toggle_info = self.get_access_toggle_widget_and_states()
-        widget_class = toggle_info['widget'].get_attribute('class')
-        if toggle_info[access] not in widget_class:
-            script = "window.scrollBy(0, -window.scrollY);"
-            self.browser.execute_script(script)
-            toggle_info['widget'].click()
-
-        def is_access_set():
-            widget_class = toggle_info['widget'].get_attribute('class')
-            assert toggle_info[access] in widget_class
-
-        self.test.wait_for(is_access_set)
-
     def get_access(self):
         assert self.is_on_subpage('details')
         toggle_info = self.get_access_toggle_widget_and_states()
@@ -215,15 +201,35 @@ class ProjectAddPage(Page):
             'public' if toggle_info['public'] in widget_class else 'private'
         )
 
+    def set_access(self, access):
+        assert self.is_on_subpage('details')
+        assert access in ('private', 'public')
+        toggle_info = self.get_access_toggle_widget_and_states()
+        widget_class = toggle_info['widget'].get_attribute('class')
+        if toggle_info[access] not in widget_class:
+            self.BY_ID('id_details-name').location_once_scrolled_into_view
+            toggle_info['widget'].click()
+
+        def is_access_set():
+            widget_class = toggle_info['widget'].get_attribute('class')
+            assert toggle_info[access] in widget_class
+
+        self.test.wait_for(is_access_set)
+
+    def get_description(self):
+        assert self.is_on_subpage('details')
+        form_field = self.BY_ID('id_details-description')
+        return form_field.get_attribute('value') or ''
+
     def set_description(self, description):
         assert self.is_on_subpage('details')
         form_field = self.BY_ID('id_details-description')
         form_field.clear()
         form_field.send_keys(description)
 
-    def get_description(self):
+    def get_proj_url(self):
         assert self.is_on_subpage('details')
-        form_field = self.BY_ID('id_details-description')
+        form_field = self.BY_ID('id_details-url')
         return form_field.get_attribute('value') or ''
 
     def set_proj_url(self, url):
@@ -232,19 +238,17 @@ class ProjectAddPage(Page):
         form_field.clear()
         form_field.send_keys(url)
 
-    def get_proj_url(self):
+    def get_questionnaire(self):
+        # TODO: Method not implemented yet
         assert self.is_on_subpage('details')
-        form_field = self.BY_ID('id_details-url')
-        return form_field.get_attribute('value') or ''
 
     def set_questionnaire(self, filename):
-        assert self.is_on_subpage('details')
-
-    def get_questionnaire(self):
+        # TODO: Method not implemented yet
         assert self.is_on_subpage('details')
 
     def check_details(self, details):
         """Checks whether the details form shows the expected data."""
+        assert self.get_org() == details['org']
         assert self.get_name() == details['name']
         assert self.get_access() == details['access']
         assert self.get_description() == details['description']
