@@ -165,7 +165,13 @@ class ProjectAddTest(FunctionalTest):
         project['url'] = ''
         proj_add_page.check_details(project)
 
-        # TODO: Check that only valid orgs are provided
+        # Check that only valid orgs are provided
+        orgs = []
+        for org in self.test_data['orgs']:
+            if 1 in org['_admins']:
+                orgs.append(org)
+        self.check_org_select(orgs)
+
         # TODO: Vary org selection
 
         # Check that an error occurs when no project name was set

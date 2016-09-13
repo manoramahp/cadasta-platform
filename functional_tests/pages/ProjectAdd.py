@@ -3,6 +3,7 @@ import re
 from .base import Page
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.select import Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import TimeoutException
@@ -140,9 +141,25 @@ class ProjectAddPage(Page):
 
     def select_org(self, slug):
         assert self.is_on_subpage('details')
+        select = Select(self.BY_ID('id_details-organization'))
+        select.select_by_value(slug)
 
     def get_org(self):
         assert self.is_on_subpage('details')
+        select = Select(self.BY_ID('id_details-organization'))
+        return select.first_selected_option.get_attribute('value')
+
+    def check_org_select(self, orgs):
+        assert self.is_on_subpage('details')
+        options = Select(self.BY_ID('id_details-organization')).options
+        assert len(orgs) == len(options)
+        for org in orgs:
+            is_found = False
+            for option in options:
+                if option.get_attribute('value') == org['slug']:
+                    is_found = True
+                    assert option.text == org['name']
+            assert is_found
 
     def set_name(self, name):
         assert self.is_on_subpage('details')
