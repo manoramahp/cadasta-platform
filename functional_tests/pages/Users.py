@@ -3,7 +3,6 @@ from selenium.webdriver.common.by import By
 
 
 class UsersPage(Page):
-
     path = '/users/'
 
     # XPath to unambiguously search for the row for

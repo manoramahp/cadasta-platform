@@ -2,7 +2,6 @@ from .base import Page
 
 
 class ProfilePage(Page):
-
     path = '/account/profile/'
 
     def go_to(self):

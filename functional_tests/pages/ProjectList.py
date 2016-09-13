@@ -5,7 +5,6 @@ from django_countries import countries
 
 
 class ProjectListPage(Page):
-
     path = '/projects/'
 
     def is_list_empty(self):

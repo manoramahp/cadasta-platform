@@ -4,7 +4,6 @@ from .base import Page
 
 
 class DashboardPage(Page):
-
     path = '/dashboard/'
 
     def get_dashboard_map(self):

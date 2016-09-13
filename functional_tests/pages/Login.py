@@ -3,7 +3,6 @@ from selenium.webdriver.common.by import By
 
 
 class LoginPage(Page):
-
     path = '/account/login/'
 
     def go_to(self):

@@ -2,7 +2,6 @@ from .base import Page
 
 
 class ProjectPage(Page):
-
     def __init__(self, test, org_slug, project_slug):
         self.path = '/organizations/{}/projects/{}/'.format(
             org_slug, project_slug)

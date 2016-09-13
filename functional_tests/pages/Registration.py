@@ -2,7 +2,6 @@ from .base import Page
 
 
 class RegistrationPage(Page):
-
     path = '/account/signup/'
 
     def go_to(self):
