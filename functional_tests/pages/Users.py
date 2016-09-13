@@ -24,20 +24,6 @@ class UsersPage(Page):
         "/td[5]/form[starts-with(@action,'/users/{0}/{1}')]"
     )
 
-    def __init__(self, test):
-        super().__init__(test)
-        self.url = self.base_url + self.path
-
-    def is_on_page(self):
-        """Returns True if user is on this page"""
-        return self.test.get_url_path() == self.path
-
-    def go_to(self):
-        """To access the user list page by a superuser"""
-        self.browser.get(self.url)
-        self.get_h1_users()
-        return self
-
     def get_h1_users(self):
         # The following is not localized (#l10n)
         return self.browser.find_element_by_xpath(

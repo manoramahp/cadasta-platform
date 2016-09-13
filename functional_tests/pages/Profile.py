@@ -5,16 +5,8 @@ class ProfilePage(Page):
 
     path = '/account/profile/'
 
-    def __init__(self, test):
-        super().__init__(test)
-        self.url = self.base_url + self.path
-
-    def is_on_page(self):
-        """Returns True if user is on this page"""
-        return self.test.get_url_path() == self.path
-
     def go_to(self):
-        self.browser.get(self.url)
+        super().go_to()
         self.test.wait_for(self.get_form)
         return self
 

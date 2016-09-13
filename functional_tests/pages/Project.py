@@ -4,23 +4,9 @@ from .base import Page
 class ProjectPage(Page):
 
     def __init__(self, test, org_slug, project_slug):
-        super().__init__(test)
         self.path = '/organizations/{}/projects/{}/'.format(
-            org_slug, project_slug
-        )
-        self.url = self.base_url + self.path
-
-        # TODO: This may be refactored as common code into Page class
-        self.BY_CSS = test.browser.find_element_by_css_selector
-        self.BYS_CSS = test.browser.find_elements_by_css_selector
-
-    def is_on_page(self):
-        """Returns True if user is on this page"""
-        return self.test.get_url_path() == self.path
-
-    def go_to(self):
-        self.browser.get(self.url)
-        return self
+            org_slug, project_slug)
+        super().__init__(test)
 
     def get_org_name(self):
         return self.BY_CSS('.org-name').text

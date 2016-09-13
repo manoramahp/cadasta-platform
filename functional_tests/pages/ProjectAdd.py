@@ -14,25 +14,6 @@ class ProjectAddPage(Page):
     TIMEOUT = 10
     path = '/projects/new/'
 
-    def __init__(self, test):
-        super().__init__(test)
-        self.url = self.base_url + self.path
-
-        self.BY_CLASS = test.browser.find_element_by_class_name
-        self.BY_CSS = test.browser.find_element_by_css_selector
-        self.BYS_CSS = test.browser.find_elements_by_css_selector
-        self.BY_ID = test.browser.find_element_by_id
-        self.BY_TAG = test.browser.find_element_by_tag_name
-        self.BY_XPATH = test.browser.find_element_by_xpath
-
-    def is_on_page(self):
-        """Returns True if user is on this page."""
-        return self.test.get_url_path() == self.path
-
-    def go_to(self):
-        self.browser.get(self.url)
-        return self
-
     def get_subpage_type(self):
         """Attempts tp determine the current subpage type
         ('geometry', 'details', or 'permissions') and returns it.
@@ -304,14 +285,6 @@ class ProjectAddPage(Page):
 
     def submit_permissions(self):
         assert self.is_on_subpage('permissions')
-
-        # TODO: temporary workaround for #206
-        script = (
-            'document.getElementsByTagName("footer")' +
-            '[0].style.display = "none"'
-        )
-        self.browser.execute_script(script)
-
         submit_button = self.BY_CLASS('btn-primary')
         next_header = "Project Overview"
         xpath = "//h2[text()='{}' and not(*[2])]".format(next_header)
