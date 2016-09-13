@@ -1430,25 +1430,6 @@ h1.label {
   }
 }
 
-/* =Error messaging for forms
--------------------------------------------------------------- */
-
-.form-group.has-error {
-  background-color: $alert-warning-bg;
-  padding: 10px;
-}
-
-ul.errorlist {
-  margin-bottom: 0;
-  padding-left: 0;
-  list-style: none !important;
-  li {
-    background-color: $alert-warning-bg;
-    color: $alert-danger-text;
-    padding: 2px 8px;
-  }
-}
-
 /* =Map location details
 -------------------------------------------------------------- */
 

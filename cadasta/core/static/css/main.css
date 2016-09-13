@@ -4343,22 +4343,6 @@ textarea.parsley-error {
 .parsley-errors-list.filled {
   opacity: 1; }
 
-.icon-asterisk {
-  content: "*";
-  color: #d9534f;
-  display: inline-block;
-  font-style: normal;
-  padding: 0 2px; }
-
-input[data-parsley-required="true"] {
-  background: yellow; }
-
-input[data-parsley-required="true"] {
-  background: yellow; }
-
-.form-group:has(input[data-parsley-required="true"]) {
-  background-color: blue; }
-
 /*input.parsley.select {
   background: url("/static/img/avatar.jpg") 14px no-repeat;
   background-color: rgba(80, 210, 80, 0.35);
@@ -4377,6 +4361,31 @@ label.required::before {
 }*/
 .has-error {
   background: aqua; }
+
+/* =Error messaging for forms
+-------------------------------------------------------------- */
+label.required:after {
+  content: "*";
+  color: #d9534f;
+  font-style: normal;
+  padding: 0 3px; }
+
+.form-group.has-error {
+  background-color: #fcf8e3;
+  padding: 10px; }
+
+ul.parsley-errors-list {
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style: none !important; }
+  ul.parsley-errors-list li {
+    background-color: #fcf8e3;
+    color: #a94442;
+    padding: 2px 8px; }
+
+.form-group.has-error {
+  background-color: #fcf8e3;
+  padding: 10px; }
 
 /* =Leaflet popups
 -------------------------------------------------------------- */
@@ -6155,21 +6164,6 @@ h1.label {
     margin-bottom: 0; }
   .nav-tabs a {
     font-size: 12px; } }
-
-/* =Error messaging for forms
--------------------------------------------------------------- */
-.form-group.has-error {
-  background-color: #fcf8e3;
-  padding: 10px; }
-
-ul.errorlist {
-  margin-bottom: 0;
-  padding-left: 0;
-  list-style: none !important; }
-  ul.errorlist li {
-    background-color: #fcf8e3;
-    color: #a94442;
-    padding: 2px 8px; }
 
 /* =Map location details
 -------------------------------------------------------------- */

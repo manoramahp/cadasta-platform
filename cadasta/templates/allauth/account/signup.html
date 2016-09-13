@@ -32,32 +32,32 @@
   {% csrf_token %}
 
   <div class="form-group{% if form.username.errors %} has-error{% endif %}">
-    <label for="id_username">Choose your username</label>
-    {% render_field form.username class+="form-control input-lg has-feedback" %}
+    <label for="id_username" class="control-label">Choose your username</label>
+    {% render_field form.username class+="form-control input-lg has-feedback" data-parsley-trigger="blur" %}
     <div class="control-label">{{ form.username.errors }}</div>
   </div>
 
   <div class="form-group{% if form.email.errors %} has-error{% endif %}">
-    <label for="id_email">Email</label>
-    {% render_field form.email class+="form-control input-lg" %}
+    <label for="id_email" class="control-label">Email</label>
+    {% render_field form.email class+="form-control input-lg" data-parsley-trigger="blur"  %}
     <div class="control-label">{{ form.email.errors }}</div>
   </div>
 
   <div class="form-group{% if form.password1.errors %} has-error{% endif %}">
-    <label for="id_password1">Password</label>
-    {% render_field form.password1 class+="form-control input-lg" %}
+    <label for="id_password1" class="control-label">Password</label>
+    {% render_field form.password1 class+="form-control input-lg" data-parsley-trigger="blur"  %}
     <div class="control-label">{{ form.password1.errors }}</div>
   </div>
 
   <div class="form-group{% if form.password2.errors %} has-error{% endif %}">
-    <label for="id_password2">Confirm password</label>
-    {% render_field form.password2 class+="form-control input-lg" %}
+    <label for="id_password2" class="control-label">Confirm password</label>
+    {% render_field form.password2 class+="form-control input-lg" data-parsley-trigger="blur"  %}
     <div class="control-label">{{ form.password2.errors }}</div>
   </div>
 
   <div class="form-group{% if form.full_name.errors %} has-error{% endif %}">
-    <label for="id_full_name">Full name</label>
-    {% render_field form.full_name class+="form-control input-lg" %}
+    <label for="id_full_name" class="control-label">Full name</label>
+    {% render_field form.full_name class+="form-control input-lg" data-parsley-trigger="blur"  %}
     <div class="control-label">{{ form.full_name.errors }}</div>
   </div>
 

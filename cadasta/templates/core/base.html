@@ -213,13 +213,13 @@
       });
       $('.dropdown-toggle').dropdown();
       $('#language').change(function() { this.form.submit(); });
-      $(".parsley-error")
-        .parent("div.form-group")
+      $("input.parsley-error")
+        .parent(".form-group")
           .addClass("has-error");
       $("input[data-parsley-required='true']")
         .closest(".form-group")
-          .children("label")
-            .append("<i class='icon-asterisk'>*</i>");
+          .children("label.control-label")
+            .addClass("required");
     });
     window.setTimeout(function() {
       $(".alert-success").fadeTo(500, 0).slideUp(500, function(){ $(this).hide(); });
