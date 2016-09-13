@@ -16,10 +16,10 @@ class ProjectAddPage(Page):
     def __init__(self, test, org_slug=None):
         if org_slug is None:
             self.path = '/projects/new/'
-            self.org_slug = None
+            self.fixed_org_slug = None
         else:
             self.path = '/organizations/{}/projects/new/'.format(org_slug)
-            self.org_slug = org_slug
+            self.fixed_org_slug = org_slug
         super().__init__(test)
 
     def get_subpage_type(self):
@@ -148,11 +148,13 @@ class ProjectAddPage(Page):
 
     def get_org(self):
         assert self.is_on_subpage('details')
+        assert self.fixed_org_slug is None
         select = Select(self.BY_ID('id_details-organization'))
         return select.first_selected_option.get_attribute('value')
 
     def select_org(self, slug):
         assert self.is_on_subpage('details')
+        assert self.fixed_org_slug is None
         select_elem = self.BY_ID('id_details-organization')
         select = Select(select_elem)
         select.select_by_value(slug)
@@ -160,6 +162,7 @@ class ProjectAddPage(Page):
 
     def check_org_select(self, orgs):
         assert self.is_on_subpage('details')
+        assert self.fixed_org_slug is None
         options = Select(self.BY_ID('id_details-organization')).options
         assert len(orgs) == len(options)
         for org in orgs:
@@ -255,7 +258,8 @@ class ProjectAddPage(Page):
 
     def check_details(self, details):
         """Checks whether the details form shows the expected data."""
-        assert self.get_org() == details['org']
+        if self.fixed_org_slug is None:
+            assert self.get_org() == details['org']
         assert self.get_name() == details['name']
         assert self.get_access() == details['access']
         assert self.get_description() == details['description']

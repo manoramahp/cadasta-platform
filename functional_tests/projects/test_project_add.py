@@ -154,7 +154,7 @@ class ProjectAddTest(FunctionalTest):
         try:
             proj_list_page.follow_add_project_link()
             raise AssertionError("There should be no add project link.")
-        except:
+        except NoSuchElementException:
             pass
 
         # Test link from organization page
@@ -171,23 +171,29 @@ class ProjectAddTest(FunctionalTest):
         """A non-logged-in user cannot access the add project page,
         but will be directed to it once logged in as a superuser."""
 
-        self.browser.get(ProjectAddPage(self).url)
+        proj_add_page = ProjectAddPage(self)
+        self.browser.get(proj_add_page.url)
         assert LoginPage(self).is_on_page()
-        assert self.get_url_query() == 'next=' + ProjectAddPage.path
+        assert self.get_url_query() == 'next=' + proj_add_page.path
+
+        proj_add_page = ProjectAddPage(self, 'unesco')
+        self.browser.get(proj_add_page.url)
+        assert LoginPage(self).is_on_page()
+        assert self.get_url_query() == 'next=' + proj_add_page.path
 
         LoginPage(self).login(
-            self.superuser['username'], self.superuser['password'],
-            wait=(By.ID, 'project-wizard')
+            self.superuser['username'],
+            self.superuser['password'],
+            wait=(By.ID, 'project-wizard'),
         )
-        assert ProjectAddPage(self).is_on_page()
+        assert proj_add_page.is_on_page()
 
     def xtest_unaffiliated_user(self):
         # TODO: Expected behavior is not yet implemented
         # Expected behavior is that user is denied access outright
         pass
 
-    def generic_test_add_project_org_admin(self, access, org_slug):
-
+    def base_test_add_project(self, access, org_slug, org_is_fixed=False):
         assert access in ('public', 'private')
 
         # Log in as org admin
@@ -197,7 +203,8 @@ class ProjectAddTest(FunctionalTest):
         # Declare working project data for verification
         project = {}
 
-        proj_add_page = ProjectAddPage(self)
+        proj_add_page = ProjectAddPage(self,
+                                       org_slug if org_is_fixed else None)
         proj_add_page.go_to()
         assert proj_add_page.is_on_page()
         assert proj_add_page.is_on_subpage('geometry')
@@ -215,16 +222,18 @@ class ProjectAddTest(FunctionalTest):
         project['url'] = ''
         proj_add_page.check_details(project)
 
-        # Check that only valid orgs are provided
-        valid_orgs = []
-        for org in self.test_data['orgs']:
-            if 1 in org['_admins']:
-                valid_orgs.append(org)
-        proj_add_page.check_org_select(valid_orgs)
+        # Check that only valid orgs are provided if org is not fixed
+        if not org_is_fixed:
+            valid_orgs = []
+            for org in self.test_data['orgs']:
+                if 1 in org['_admins']:
+                    valid_orgs.append(org)
+            proj_add_page.check_org_select(valid_orgs)
 
-        # Select specified org
-        proj_add_page.select_org(org_slug)
-        project['org'] = org_slug
+        # Select specified org if org is not fixed
+        if not org_is_fixed:
+            proj_add_page.select_org(org_slug)
+            project['org'] = org_slug
 
         # Check that an error occurs when no project name was set
         # Also toggle access and set description
@@ -331,13 +340,25 @@ class ProjectAddTest(FunctionalTest):
         self.logout()
 
     def test_orgadmin_public_project_unesco(self):
-        self.generic_test_org_admin('public', 'unesco')
+        self.base_test_add_project('public', 'unesco')
 
     def test_orgadmin_private_project_unesco(self):
-        self.generic_test_org_admin('private', 'unesco')
+        self.base_test_add_project('private', 'unesco')
 
     def test_orgadmin_public_project_unicef(self):
-        self.generic_test_org_admin('public', 'unicef')
+        self.base_test_add_project('public', 'unicef')
 
     def test_orgadmin_private_project_unicef(self):
-        self.generic_test_org_admin('private', 'unicef')
+        self.base_test_add_project('private', 'unicef')
+
+    def test_orgadmin_public_project_fixed_unesco(self):
+        self.base_test_add_project('public', 'unesco', org_is_fixed=True)
+
+    def test_orgadmin_private_project_fixed_unesco(self):
+        self.base_test_add_project('private', 'unesco', org_is_fixed=True)
+
+    def test_orgadmin_public_project_fixed_unicef(self):
+        self.base_test_add_project('public', 'unicef', org_is_fixed=True)
+
+    def test_orgadmin_private_project_fixed_unicef(self):
+        self.base_test_add_project('private', 'unicef', org_is_fixed=True)
