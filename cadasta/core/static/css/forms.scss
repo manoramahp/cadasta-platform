@@ -144,3 +144,37 @@ ul.parsley-errors-list {
   padding: 10px;
 }
 
+
+/* PARSLEY FORM VALIDATION */
+
+/* ensure field-spans injected by parsley don't take up space when empty... */
+
+.parsley-messages {
+  display: none;
+}
+.parsley-messages.filled {
+  display: block;
+}
+/* aggregated parsley error message display... */
+
+div.validation-errors-container {
+  display: none;
+}
+div.validation-errors-container.filled {
+  display: block;
+}
+div.validation-errors-container ul.validation-errors-list {
+  margin: 0;
+  padding: 0;
+}
+div.validation-errors-container ul.validation-errors-list li {
+  color: rgb(169, 68, 66);
+  list-style: outside none disc;
+  margin-left: 16px;
+  padding-left: 1em;
+  text-indent: -0.7em;
+}
+div.validation-errors-container ul.validation-errors-list li a {
+  color: inherit;
+}
+

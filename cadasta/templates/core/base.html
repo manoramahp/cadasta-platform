@@ -196,6 +196,20 @@
     </script>
     {% block extra_script %}{% endblock %}
     <script>
+
+    window.ParsleyConfig = { // configure parsley for bootstrap 3 forms
+      successClass: "has-success",
+      errorClass: "has-error",
+      classHandler: function(el) {
+        return el.$element.closest(".form-group");
+      },
+      errorsContainer: function(el) {
+        return el.$element.closest(".control");
+      },
+      errorsWrapper: "<span class='help-block parsley-messages'></span>",
+      errorTemplate: "<span></span>"
+    };
+
     $(document).ready(function () {
       $('.datatable').DataTable({
         conditionalPaging: true,
@@ -212,15 +226,18 @@
         }
       });
       $('.dropdown-toggle').dropdown();
-      $('#language').change(function() { this.form.submit(); });
-      $("input.parsley-error")
-        .parent(".form-group")
-          .addClass("has-error");
-      $("input[data-parsley-required='true']")
-        .closest(".form-group")
-          .children("label.control-label")
-            .addClass("required");
+      $('#language').change(function() { this.form.submit(); });;
+      $('input[data-parsley-required="true"]')
+        .closest('.form-group')
+          .children('label.control-label')
+            .addClass('required');
     });
+
+    $(function() {
+      $('[type=email]').parsley().on('field:error', function() { 
+        alert('It works'); 
+    });
+
     window.setTimeout(function() {
       $(".alert-success").fadeTo(500, 0).slideUp(500, function(){ $(this).hide(); });
     }, 5000);
