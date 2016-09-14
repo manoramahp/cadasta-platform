@@ -188,6 +188,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/parsleyConfig.js' %}"></script>
     <script src="{% static 'js/parsley.min.js' %}"></script>
     <script type="text/javascript"
             src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js">
@@ -196,20 +197,6 @@
     </script>
     {% block extra_script %}{% endblock %}
     <script>
-
-    window.ParsleyConfig = { // configure parsley for bootstrap 3 forms
-      successClass: "has-success",
-      errorClass: "has-error",
-      classHandler: function(el) {
-        return el.$element.closest(".form-group");
-      },
-      errorsContainer: function(el) {
-        return el.$element.closest(".control");
-      },
-      errorsWrapper: "<span class='help-block parsley-messages'></span>",
-      errorTemplate: "<span></span>"
-    };
-
     $(document).ready(function () {
       $('.datatable').DataTable({
         conditionalPaging: true,
@@ -231,13 +218,9 @@
         .closest('.form-group')
           .children('label.control-label')
             .addClass('required');
-    });
 
-    $(function() {
-      $('[type=email]').parsley().on('field:error', function() { 
-        alert('It works'); 
-    });
 
+    });
     window.setTimeout(function() {
       $(".alert-success").fadeTo(500, 0).slideUp(500, function(){ $(this).hide(); });
     }, 5000);

@@ -51,21 +51,39 @@ tr.contacts-error {
 /* =Parsley client-side validation
 -------------------------------------------------------------- */
 
-input.parsley-success,
+/* input.parsley-success,
 select.parsley-success,
 textarea.parsley-success {
   color: #468847;
   background-color: #DFF0D8;
   border: 1px solid #D6E9C6;
-  background: url("/static/img/avatar.jpg") 20px no-repeat;
+  background: url('/static/img/checkmark.png') right top no-repeat;
+}*/
+
+.has-success input,
+.has-success select,
+.has-success textarea {
+  //color: #468847;
+  //background-color: #DFF0D8;
+  //border: 1px solid #D6E9C6;
+  background: url('/static/img/checkmark.png') 98% 50% no-repeat;
 }
 
-input.parsley-error,
+/* input.parsley-error,
 select.parsley-error,
 textarea.parsley-error {
   color: #B94A48;
   background-color: #F2DEDE;
   border: 1px solid #EED3D7;
+  background: url('/static/img/cross.png') right top no-repeat;
+}*/
+
+.has-error input,
+.has-error select,
+.has-error textarea {
+  //color: #B94A48;
+  border: 1px solid $brand-danger;
+  background: #fff url('/static/img/cross.png')  98% 50% no-repeat;
 }
 
 .parsley-errors-list {
@@ -75,7 +93,6 @@ textarea.parsley-error {
   font-size: 0.9em;
   line-height: 0.9em;
   opacity: 0;
-
   transition: all .3s ease-in;
   -o-transition: all .3s ease-in;
   -moz-transition: all .3s ease-in;
@@ -88,28 +105,6 @@ textarea.parsley-error {
 
 input[data-parsley-required="true"] {
   //background: yellow;
-}
-
-
-/*input.parsley.select {
-  background: url("/static/img/avatar.jpg") 14px no-repeat;
-  background-color: rgba(80, 210, 80, 0.35);
-}
-
-data-parsley-class-handler=":parent" [data-parsley-required="true"] { 
-  content: "*";
-  color: #c20003;
-  margin-right: 2px;
-}
-
-label.required::before {
-  content: "*";
-  color: #c20003;
-  margin-right: 2px;
-}*/
-
-.has-error {
-  background: aqua;
 }
 
 /* =Error messaging for forms
@@ -177,4 +172,5 @@ div.validation-errors-container ul.validation-errors-list li {
 div.validation-errors-container ul.validation-errors-list li a {
   color: inherit;
 }
+
 
