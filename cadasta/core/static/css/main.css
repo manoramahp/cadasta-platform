@@ -4311,50 +4311,6 @@ tr.contacts-error {
   font-size: 0.85em;
   opacity: 0.75; }
 
-/* =Parsley client-side validation
--------------------------------------------------------------- */
-/* input.parsley-success,
-select.parsley-success,
-textarea.parsley-success {
-  color: #468847;
-  background-color: #DFF0D8;
-  border: 1px solid #D6E9C6;
-  background: url('/static/img/checkmark.png') right top no-repeat;
-}*/
-.has-success input,
-.has-success select,
-.has-success textarea {
-  background: url("/static/img/checkmark.png") 98% 50% no-repeat; }
-
-/* input.parsley-error,
-select.parsley-error,
-textarea.parsley-error {
-  color: #B94A48;
-  background-color: #F2DEDE;
-  border: 1px solid #EED3D7;
-  background: url('/static/img/cross.png') right top no-repeat;
-}*/
-.has-error input,
-.has-error select,
-.has-error textarea {
-  border: 1px solid #d9534f;
-  background: #fff url("/static/img/cross.png") 98% 50% no-repeat; }
-
-.parsley-errors-list {
-  margin: 2px 0 3px;
-  padding: 0;
-  list-style-type: none;
-  font-size: 0.9em;
-  line-height: 0.9em;
-  opacity: 0;
-  transition: all .3s ease-in;
-  -o-transition: all .3s ease-in;
-  -moz-transition: all .3s ease-in;
-  -webkit-transition: all .3s ease-in; }
-
-.parsley-errors-list.filled {
-  opacity: 1; }
-
 /* =Error messaging for forms
 -------------------------------------------------------------- */
 label.required:after {
@@ -4380,35 +4336,69 @@ ul.parsley-errors-list {
   background-color: #fcf8e3;
   padding: 10px; }
 
-/* PARSLEY FORM VALIDATION */
-/* ensure field-spans injected by parsley don't take up space when empty... */
-.parsley-messages {
-  display: none; }
+/* =Parsley client-side validation
+-------------------------------------------------------------- */
+.has-success input,
+.has-success select,
+.has-success textarea {
+  background: url("/static/img/checkmark.png") 98% 50% no-repeat;
+  padding-right: 36px; }
 
-.parsley-messages.filled {
-  display: block; }
+.has-error input,
+.has-error select,
+.has-error textarea {
+  border: 1px solid #d9534f;
+  background: #fff url("/static/img/cross.png") 98% 50% no-repeat;
+  padding-right: 36px; }
 
-/* aggregated parsley error message display... */
-div.validation-errors-container {
-  display: none; }
-
-div.validation-errors-container.filled {
-  display: block; }
-
-div.validation-errors-container ul.validation-errors-list {
-  margin: 0;
+.parsley-errors-list, .error-list {
+  margin: 2px 0 3px;
   padding: 0; }
 
+.parsley-errors-list {
+  opacity: 0;
+  transition: all .3s ease-in;
+  -o-transition: all .3s ease-in;
+  -moz-transition: all .3s ease-in;
+  -webkit-transition: all .3s ease-in; }
+
+.parsley-errors-list.filled {
+  opacity: 1; }
+
+/* PARSLEY FORM VALIDATION 
+
+ ensure field-spans injected by parsley don't take up space when empty... 
+
+.parsley-messages {
+  display: none;
+}
+.parsley-messages.filled {
+  display: block;
+}
+
+/* aggregated parsley error message display... 
+
+div.validation-errors-container {
+  display: none;
+}
+div.validation-errors-container.filled {
+  display: block;
+}
+div.validation-errors-container ul.validation-errors-list {
+  margin: 0;
+  padding: 0;
+}
 div.validation-errors-container ul.validation-errors-list li {
-  color: #a94442;
+  color: rgb(169, 68, 66);
   list-style: outside none disc;
   margin-left: 16px;
   padding-left: 1em;
-  text-indent: -0.7em; }
-
+  text-indent: -0.7em;
+}
 div.validation-errors-container ul.validation-errors-list li a {
-  color: inherit; }
-
+  color: inherit;
+}
+*/
 /* =Leaflet popups
 -------------------------------------------------------------- */
 .leaflet-container {

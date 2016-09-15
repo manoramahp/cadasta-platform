@@ -32,33 +32,33 @@
   {% csrf_token %}
 
   <div class="form-group{% if form.username.errors %} has-error{% endif %}">
-    <label for="id_username" class="control-label">Choose your username</label>
-    {% render_field form.username class+="form-control input-lg" data-parsley-trigger="blur" %}
-    <div class="help-block">{{ form.username.errors }}</div>
+    <label for="id_username" class="control-label">Choose your username3</label>
+    {% render_field form.username class+="form-control input-lg" data-parsley-trigger="blur" minlength="3" data-parsley-multiple-of="3" %}
+    <div class="error-block">{{ form.username.errors }}</div>
   </div>
 
   <div class="form-group{% if form.email.errors %} has-error{% endif %}">
     <label for="id_email" class="control-label">Email</label>
     {% render_field form.email class+="form-control input-lg" data-parsley-trigger="blur" %}
-    <div class="help-block">{{ form.email.errors }}</div>
+    <div class="error-block">{{ form.email.errors }}</div>
   </div>
 
   <div class="form-group{% if form.password1.errors %} has-error{% endif %}">
     <label for="id_password1" class="control-label">Password</label>
     {% render_field form.password1 class+="form-control input-lg" data-parsley-trigger="blur"  %}
-    <div class="help-block">{{ form.password1.errors }}</div>
+    <div class="error-block">{{ form.password1.errors }}</div>
   </div>
 
   <div class="form-group{% if form.password2.errors %} has-error{% endif %}">
     <label for="id_password2" class="control-label">Confirm password</label>
     {% render_field form.password2 class+="form-control input-lg" data-parsley-trigger="blur"  %}
-    <div class="help-block">{{ form.password2.errors }}</div>
+    <div class="error-block">{{ form.password2.errors }}</div>
   </div>
 
   <div class="form-group{% if form.full_name.errors %} has-error{% endif %}">
     <label for="id_full_name" class="control-label">Full name</label>
     {% render_field form.full_name class+="form-control input-lg" data-parsley-trigger="blur"  %}
-    <div class="help-block">{{ form.full_name.errors }}</div>
+    <div class="error-block">{{ form.full_name.errors }}</div>
   </div>
 
   {% if redirect_field_value %}

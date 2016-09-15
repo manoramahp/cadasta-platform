@@ -7,7 +7,5 @@ window.ParsleyConfig = {
   },
   errorsContainer: function(ParsleyField) {
       return ParsleyField.$element.parents('.form-group');
-  },
-  errorsWrapper: '<div class="help-block">',
-  errorTemplate: '<div></div>'
+  }
 };

@@ -218,9 +218,19 @@
         .closest('.form-group')
           .children('label.control-label')
             .addClass('required');
-
-
     });
+
+    window.Parsley.addValidator('multipleOf', {
+      validateNumber: function(value, requirement) {
+        return value % requirement === 0;
+      },
+      requirementType: 'integer',
+      messages: {
+        en: 'This value should be a multiple of %s.',
+        fr: "Ce nombre n'est pas un multiple de %s."
+      }
+    });
+
     window.setTimeout(function() {
       $(".alert-success").fadeTo(500, 0).slideUp(500, function(){ $(this).hide(); });
     }, 5000);
